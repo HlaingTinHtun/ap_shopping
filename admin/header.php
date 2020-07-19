@@ -37,26 +37,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $page = end($link_array);
     ?>
 
-    <form class="form-inline ml-3" method="post"
-    <?php if($page == 'index.php') :?>
-      action="index.php"
-    <?php elseif($page == 'category.php'):?>
-      action="category.php"
-    <?php elseif($page == 'user_list.php'):?>
-      action="user_listing.php"
-    <?php endif;?>
-    >
-      <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
-      <div class="input-group input-group-sm">
-        <input name="search" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
+  <?php if ($page != 'order_list.php') {?>
+      <form class="form-inline ml-3" method="post"
+      <?php if($page == 'index.php') :?>
+        action="index.php"
+      <?php elseif($page == 'category.php'):?>
+        action="category.php"
+      <?php elseif($page == 'user_list.php'):?>
+        action="user_listing.php"
+      <?php endif;?>
+      >
+        <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+        <div class="input-group input-group-sm">
+          <input name="search" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-navbar" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
-
+      </form>
+  <?php } ?>
 
   </nav>
   <!-- /.navbar -->
@@ -109,6 +110,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="nav-icon fas fa-user"></i>
               <p>
                 User
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="order_list.php" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Order
               </p>
             </a>
           </li>

@@ -19,7 +19,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Product Listings</h3>
+                <h3 class="card-title">Order Listings</h3>
               </div>
               <?php
                 if (!empty($_GET['pageno'])) {
@@ -31,42 +31,30 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                 $numOfrecs = 5;
                 $offset = ($pageno - 1) * $numOfrecs;
 
-                if (empty($_POST['search'])) {
-                  $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
-                  $stmt->execute();
-                  $rawResult = $stmt->fetchAll();
+                $stmt = $pdo->prepare("SELECT * FROM sale_orders ORDER BY id DESC");
+                $stmt->execute();
+                $rawResult = $stmt->fetchAll();
 
-                  $total_pages = ceil(count($rawResult) / $numOfrecs);
+                $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-                  $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
-                  $stmt->execute();
-                  $result = $stmt->fetchAll();
-                }else{
-                  $searchKey = $_POST['search'];
-                  $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
-                  $stmt->execute();
-                  $rawResult = $stmt->fetchAll();
-
-                  $total_pages = ceil(count($rawResult) / $numOfrecs);
-
-                  $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
-                  $stmt->execute();
-                  $result = $stmt->fetchAll();
-                }
+                $stmt = $pdo->prepare("SELECT * FROM sale_orders ORDER BY id DESC LIMIT $offset,$numOfrecs");
+                $stmt->execute();
+                $result = $stmt->fetchAll();
 
               ?>
               <!-- /.card-header -->
               <div class="card-body">
                 <div>
-                  <a href="add.php" type="button" class="btn btn-success">New Blog Post</a>
+                  <a href="cat_add.php" type="button" class="btn btn-success">New Category</a>
                 </div>
                 <br>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>Title</th>
-                      <th>Content</th>
+                      <th>User</th>
+                      <th>Total Price</th>
+                      <th>Order Date</th>
                       <th style="width: 40px">Actions</th>
                     </tr>
                   </thead>
@@ -75,19 +63,22 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                     if ($result) {
                       $i = 1;
                       foreach ($result as $value) { ?>
+
+                        <?php
+                          $userStmt = $pdo->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
+                          $userStmt->execute();
+                          $userResult = $userStmt->fetchAll();
+                        ?>
+
                         <tr>
                           <td><?php echo $i;?></td>
-                          <td><?php echo escape($value['title'])?></td>
-                          <td><?php echo escape(substr($value['content'],0,50))?></td>
+                          <td><?php echo escape($userResult[0]['name'])?></td>
+                          <td><?php echo escape($value['total_price'])?></td>
+                          <td><?php echo escape(date('Y-m-d',strtotime($value['order_date'])))?></td>
                           <td>
                             <div class="btn-group">
                               <div class="container">
-                                <a href="edit.php?id=<?php echo $value['id']?>" type="button" class="btn btn-warning">Edit</a>
-                              </div>
-                              <div class="container">
-                                <a href="delete.php?id=<?php echo $value['id']?>"
-                                  onclick="return confirm('Are you sure you want to delete this item')"
-                                  type="button" class="btn btn-danger">Delete</a>
+                                <a href="order_detail.php?id=<?php echo $value['id']?>" type="button" class="btn btn-default">View</a>
                               </div>
                             </div>
                           </td>
@@ -97,6 +88,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                       }
                     }
                     ?>
+                    </tbody>
                   </tbody>
                 </table><br>
                 <nav aria-label="Page navigation example" style="float:right">
