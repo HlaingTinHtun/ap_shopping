@@ -22,6 +22,7 @@ if (empty($_SESSION['_token'])) {
 
 
 
+
 /**
  * Escapes HTML for output
  *
