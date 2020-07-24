@@ -70,7 +70,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Blog Panel</span>
+      <span class="brand-text font-weight-light">Admin Panel</span>
     </a>
 
     <!-- Sidebar -->
