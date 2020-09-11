@@ -4,16 +4,22 @@ require '../config/config.php';
 require '../config/common.php';
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-  header('Location: login.php');
+  header('Location: /admin/login.php');
 }
 if ($_SESSION['role'] != 1) {
-  header('Location: login.php');
+  header('Location: /admin/login.php');
 }
 
 if ($_POST) {
-  if (empty($_POST['name']) || empty($_POST['email'])) {
+  if (empty($_POST['name']) || empty($_POST['email'])|| empty($_POST['phone']) || empty($_POST['address'])) {
     if (empty($_POST['name'])) {
       $nameError = 'Name cannot be null';
+    }
+    if (empty($_POST['phone'])) {
+      $phoneError = 'Phone is required';
+    }
+    if (empty($_POST['address'])) {
+      $addressError = 'Address is required';
     }
     if (empty($_POST['email'])) {
       $emailError = 'Email cannot be null';
@@ -24,6 +30,8 @@ if ($_POST) {
     $id = $_POST['id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
     $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
 
     if (empty($_POST['role'])) {
@@ -40,9 +48,9 @@ if ($_POST) {
       echo "<script>alert('Email duplicated')</script>";
     }else{
       if ($password != null) {
-        $stmt = $pdo->prepare("UPDATE users SET name='$name',email='$email',password='$password',role='$role' WHERE id='$id'");
+        $stmt = $pdo->prepare("UPDATE users SET name='$name',email='$email',password='$password',phone='$phone',address='$address',role='$role' WHERE id='$id'");
       }else{
-        $stmt = $pdo->prepare("UPDATE users SET name='$name',email='$email',role='$role' WHERE id='$id'");
+        $stmt = $pdo->prepare("UPDATE users SET name='$name',email='$email',phone='$phone',address='$address',role='$role' WHERE id='$id'");
       }
       $result = $stmt->execute();
       if ($result) {
@@ -78,6 +86,14 @@ $result = $stmt->fetchAll();
                   <div class="form-group">
                     <label for="">Email</label><p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
                     <input type="email" class="form-control" name="email" value="<?php echo escape($result[0]['email'])?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Phone</label><p style="color:red"><?php echo empty($phoneError) ? '' : '*'.$phoneError; ?></p>
+                    <input type="text" class="form-control" name="phone" value="<?php echo escape($result[0]['phone'])?>">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Address</label><p style="color:red"><?php echo empty($addressError) ? '' : '*'.$addressError; ?></p>
+                    <input type="text" class="form-control" name="address" value="<?php echo escape($result[0]['address'])?>">
                   </div>
                   <div class="form-group">
                     <label for="">Password</label><p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
