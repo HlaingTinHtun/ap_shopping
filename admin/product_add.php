@@ -36,31 +36,41 @@ if ($_POST) {
     if (empty($_FILES['image'])) {
       $imageError = 'Image is required';
     }
-  }else{//validation success
-    $file = 'images/'.($_FILES['image']['name']);
-    $imageType = pathinfo($file,PATHINFO_EXTENSION);
+  }else{//fields are included.
 
-    if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
-      echo "<script>alert('Image should be jpg,jpeg,png');</script>";
-    }else{ //image validation success
-      $name = $_POST['name'];
-      $desc = $_POST['description'];
-      $category = $_POST['category'];
-      $qty = $_POST['quantity'];
-      $price = $_POST['price'];
-      $image = $_FILES['image']['name'];
+    if (is_numeric($_POST['quantity']) != 1) {
+      $qtyError = 'Quantity should be integer value';
+    }
+    if (is_numeric($_POST['price']) != 1) {
+      $priceError = 'Price should be integer value';
+    }
 
-      move_uploaded_file($_FILES['image']['tmp_name'],$file);
+    if ($qtyError == '' && $priceError == '') {
+      $file = 'images/'.($_FILES['image']['name']);
+      $imageType = pathinfo($file,PATHINFO_EXTENSION);
 
-      $stmt = $pdo->prepare("INSERT INTO products(name,description,category_id,price,quantity,image)
-       VALUES (:name,:description,:category,:price,:quantity,:image)");
+      if ($imageType != 'jpg' && $imageType != 'jpeg' && $imageType != 'png') {
+        echo "<script>alert('Image should be jpg,jpeg,png');</script>";
+      }else{ //image validation success
+        $name = $_POST['name'];
+        $desc = $_POST['description'];
+        $category = $_POST['category'];
+        $qty = $_POST['quantity'];
+        $price = $_POST['price'];
+        $image = $_FILES['image']['name'];
 
-      $result = $stmt->execute(
-          array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':image'=>$image)
-      );
+        move_uploaded_file($_FILES['image']['tmp_name'],$file);
 
-      if ($result) {
-        echo "<script>alert('Product is added');window.location.href='index.php';</script>";
+        $stmt = $pdo->prepare("INSERT INTO products(name,description,category_id,price,quantity,image)
+         VALUES (:name,:description,:category,:price,:quantity,:image)");
+
+        $result = $stmt->execute(
+            array(':name'=>$name,':description'=>$desc,':category'=>$category,':price'=>$price,':quantity'=>$qty,':image'=>$image)
+        );
+
+        if ($result) {
+          echo "<script>alert('Product is added');window.location.href='index.php';</script>";
+        }
       }
     }
   }
