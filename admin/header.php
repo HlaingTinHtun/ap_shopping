@@ -125,6 +125,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+
+                    <li class="nav-item has-treeview menu">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Reports
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="weekly_report.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Weekly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="monthly_report.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="royal_user.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Royal Customers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="best_seller.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Best Seller Items</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

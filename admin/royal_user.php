@@ -23,7 +23,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
               </div>
               <?php
                 $currentDate = date("Y-m-d");
-                $stmt = $pdo->prepare("SELECT * FROM sale_orders WHERE total_price>=400000 ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM sale_orders WHERE total_price>=400000 group by user_id ORDER BY id DESC");
                 $stmt->execute();
                 $result = $stmt->fetchAll();
               ?>
