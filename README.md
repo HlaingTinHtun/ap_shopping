@@ -1,5 +1,5 @@
 # AP Shopping (A small prototype e-commerce system)
-#### Video demo - 
+#### Video demo - https://youtu.be/TnkTcdDvy-U
 
 #### Description
 
