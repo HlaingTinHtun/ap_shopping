@@ -3,7 +3,7 @@
 define('MYSQL_USER','root');
 define('MYSQL_PASSWORD','');
 define('MYSQL_HOST','localhost');
-define('MYSQL_DATABASE','blog');
+define('MYSQL_DATABASE','ap_shopping');
 
 $options = array(
   PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
